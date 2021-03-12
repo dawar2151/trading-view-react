@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './index.css';
 import { widget } from '../../charting_library';
-import Datafeed from './api';
+import Datafeed from './api/datafeed';
 function getLanguageFromURL() {
 	const regex = new RegExp('[\\?&]lang=([^&#]*)');
 	const results = regex.exec(window.location.search);
@@ -10,10 +10,10 @@ function getLanguageFromURL() {
 
 export class TVChartContainer extends React.PureComponent {
 	static defaultProps = {
-		symbol: 'LAYER/USDT',
+		symbol: 'uniswapv2:WETH/USD', // default symbol
 		interval: '30',
 		containerId: 'tv_chart_container',
-		datafeedUrl: 'http://localhost:80',
+		datafeedUrl: 'https://demo_feed.tradingview.com',
 		libraryPath: '/charting_library/',
 		chartsStorageUrl: 'https://saveload.tradingview.com',
 		chartsStorageApiVersion: '1.1',
@@ -31,6 +31,7 @@ export class TVChartContainer extends React.PureComponent {
 			symbol: this.props.symbol,
 			// BEWARE: no trailing slash is expected in feed URL
 			datafeed: Datafeed,
+			//datafeed:new window.Datafeeds.UDFCompatibleDatafeed(this.props.datafeedUrl),
 			interval: this.props.interval,
 			container_id: this.props.containerId,
 			library_path: this.props.libraryPath,
@@ -50,7 +51,7 @@ export class TVChartContainer extends React.PureComponent {
 
 		const tvWidget = new widget(widgetOptions);
 		this.tvWidget = tvWidget;
-
+		/*
 		tvWidget.onChartReady(() => {
 			tvWidget.headerReady().then(() => {
 				const button = tvWidget.createButton();
@@ -63,7 +64,7 @@ export class TVChartContainer extends React.PureComponent {
 				})
 				button.innerHTML = 'LAYER/WETH';
 			});
-		});
+		});*/
 	}
 
 	componentWillUnmount() {

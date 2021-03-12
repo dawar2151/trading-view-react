@@ -8,11 +8,10 @@ class App extends React.Component {
 			<div className={ 'App' }>
 				<header className={ 'App-header' }>
 					<h1 className={ 'App-title' }>
-						
+						Uniswap tradingView	
 					</h1>
 				</header>
 				<div style={{display:'flex',width:"100%", alignContent:"center",alignItems:"center"}}>
-					hhh
 					<div style={{width:"50%", margin: '0 auto'}}>
 						<TVChartContainer />
 					</div>
