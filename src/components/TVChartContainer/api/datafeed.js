@@ -11,7 +11,7 @@ import {
 const lastBarsCache = new Map();
 
 const configurationData = {
-	supported_resolutions: ['10min','30min','1D', '1W', '1M'],
+	supported_resolutions: ["D", "W"],
 	exchanges: [{
 		value: 'uniswapv2',
 		name: 'Uniswap',
@@ -83,6 +83,7 @@ export default {
 	) => {
 		console.log('[resolveSymbol]: Method call', symbolName);
 		const symbols = await getAllSymbols();
+		console.log(symbols);
 		const symbolItem = symbols.find(({
 			full_name,
 		}) => full_name === symbolName);
@@ -100,12 +101,13 @@ export default {
 			timezone: 'Etc/UTC',
 			exchange: symbolItem.exchange,
 			minmov: 1,
-			pricescale: 100,
-			has_intraday: false,
+			pricescale: 100000000,
+			intraday_multipliers: ['1', '60'],
+			has_intraday: true,
 			has_no_volume: true,
-			has_weekly_and_monthly: false,
+			has_weekly_and_monthly: true,
 			supported_resolutions: configurationData.supported_resolutions,
-			volume_precision: 2,
+			//volume_precision: 2,
 			data_status: 'streaming',
 		};
 

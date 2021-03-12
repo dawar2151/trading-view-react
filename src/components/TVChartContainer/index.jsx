@@ -10,8 +10,8 @@ function getLanguageFromURL() {
 
 export class TVChartContainer extends React.PureComponent {
 	static defaultProps = {
-		symbol: 'uniswapv2:WETH/USD', // default symbol
-		interval: '30',
+		symbol: 'uniswapv2:DIA/WETH', // default symbol
+		interval: '1D',
 		containerId: 'tv_chart_container',
 		datafeedUrl: 'https://demo_feed.tradingview.com',
 		libraryPath: '/charting_library/',
@@ -46,12 +46,13 @@ export class TVChartContainer extends React.PureComponent {
 			fullscreen: this.props.fullscreen,
 			autosize: this.props.autosize,
 			studies_overrides: this.props.studiesOverrides,
+			allow_symbol_change:"false",
 			theme:'DARK'
 		};
 
 		const tvWidget = new widget(widgetOptions);
 		this.tvWidget = tvWidget;
-		/*
+		
 		tvWidget.onChartReady(() => {
 			tvWidget.headerReady().then(() => {
 				const button = tvWidget.createButton();
@@ -59,12 +60,13 @@ export class TVChartContainer extends React.PureComponent {
 				button.setAttribute('title', 'Click to show a notification popup');
 				button.classList.add('apply-common-tooltip');
 				button.addEventListener('click', () =>{
-					tvWidget.setSymbol(button.innerHTML, 30);
+					tvWidget.setSymbol(button.innerHTML == 'uniswapv2:LAYER/WETH'?'gateio:LAYER/USDT':'uniswapv2:LAYER/WETH', '1D');
 					button.innerHTML = button.innerHTML == 'LAYER/WETH'?'LAYER/USDT':'LAYER/WETH';
 				})
 				button.innerHTML = 'LAYER/WETH';
 			});
-		});*/
+		});
+		
 	}
 
 	componentWillUnmount() {
