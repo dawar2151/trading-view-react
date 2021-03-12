@@ -10,8 +10,8 @@ function getLanguageFromURL() {
 
 export class TVChartContainer extends React.PureComponent {
 	static defaultProps = {
-		symbol: 'uniswapv2:DIA/WETH', // default symbol
-		interval: '1D',
+		symbol: 'uniswapv2:LAYER/WETH', // default symbol
+		interval: '30',
 		containerId: 'tv_chart_container',
 		datafeedUrl: 'https://demo_feed.tradingview.com',
 		libraryPath: '/charting_library/',
