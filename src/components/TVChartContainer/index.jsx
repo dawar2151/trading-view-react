@@ -61,7 +61,7 @@ export class TVChartContainer extends React.PureComponent {
 				button.setAttribute('title', 'Click to show a notification popup');
 				button.classList.add('apply-common-tooltip');
 				button.addEventListener('click', () =>{
-					tvWidget.setSymbol(button.innerHTML == token0+'/USD'? token0+'/USD':'uniswapv2:'+token0+'/'+token1, '1D');
+					tvWidget.setSymbol(button.innerHTML == token0+'/USD'? token0+'/USD':'uniswapv2:'+token0+'/'+token1, '30');
 					button.innerHTML = button.innerHTML == token0+'/USD'?token0+'/'+token1: token0+'/USD';
 				})
 				button.innerHTML = token0+'/USD';
