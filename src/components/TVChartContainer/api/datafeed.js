@@ -11,7 +11,7 @@ import {
 const lastBarsCache = new Map();
 
 const configurationData = {
-	supported_resolutions: ["D", "W"],
+	supported_resolutions: ["1","15","30","D", "W"],
 	exchanges: [{
 		value: 'uniswapv2',
 		name: 'Uniswap',
@@ -129,7 +129,8 @@ export default {
 			.map(name => `${name}=${encodeURIComponent(urlParameters[name])}`)
 			.join('&');
 		try {
-			const data = await makeApiRequest(`data/histoday?${query}`);
+			const url  = resolution === '1D' ? 'data/histoday' : resolution >= 60 ? 'data/histohour' : 'data/histominute'
+			const data = await makeApiRequest(`${url}?${query}`);
 			if (data.Response && data.Response === 'Error' || data.Data.length === 0) {
 				// "noData" should be set if there is no data in the requested period.
 				onHistoryCallback([], {
