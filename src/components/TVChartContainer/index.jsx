@@ -56,14 +56,15 @@ export class TVChartContainer extends React.PureComponent {
 		tvWidget.onChartReady(() => {
 			tvWidget.headerReady().then(() => {
 				const button = tvWidget.createButton();
-				
+				let token0 = (this.props.symbol.split(':')[1]).split('/')[0];
+				let token1 = (this.props.symbol.split(':')[1]).split('/')[1];
 				button.setAttribute('title', 'Click to show a notification popup');
 				button.classList.add('apply-common-tooltip');
 				button.addEventListener('click', () =>{
-					tvWidget.setSymbol(button.innerHTML == 'uniswapv2:LAYER/WETH'?'gateio:LAYER/USDT':'uniswapv2:LAYER/WETH', '1D');
-					button.innerHTML = button.innerHTML == 'LAYER/WETH'?'LAYER/USDT':'LAYER/WETH';
+					tvWidget.setSymbol(button.innerHTML == token0+'/USD'? token0+'/USD':'uniswapv2:'+token0+'/'+token1, '1D');
+					button.innerHTML = button.innerHTML == token0+'/USD'?token0+'/'+token1: token0+'/USD';
 				})
-				button.innerHTML = 'LAYER/WETH';
+				button.innerHTML = token0+'/USD';
 			});
 		});
 		

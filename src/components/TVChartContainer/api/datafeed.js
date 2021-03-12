@@ -83,7 +83,11 @@ export default {
 	) => {
 		console.log('[resolveSymbol]: Method call', symbolName);
 		const symbols = await getAllSymbols();
-		console.log(symbols);
+		console.log(symbolName.split('/')[1]=='USD')
+		const copySymbol = symbolName;
+		if(copySymbol.split('/')[1]=='USD'){
+			symbolName = 'uniswapv2:WETH/USDT'
+		}
 		const symbolItem = symbols.find(({
 			full_name,
 		}) => full_name === symbolName);
@@ -93,9 +97,9 @@ export default {
 			return;
 		}
 		const symbolInfo = {
-			ticker: symbolItem.full_name,
-			name: symbolItem.symbol,
-			description: symbolItem.description,
+			ticker: copySymbol.split('/')[1]=='USD'?copySymbol:symbolItem.full_name,
+			name: copySymbol.split('/')[1]=='USD'?copySymbol:symbolItem.symbol,
+			description: copySymbol.split('/')[1]=='USD'?copySymbol:symbolItem.description,
 			type: symbolItem.type,
 			session: '24x7',
 			timezone: 'Etc/UTC',
@@ -117,7 +121,22 @@ export default {
 
 	getBars: async (symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) => {
 		console.log('[getBars]: Method call', symbolInfo, resolution, from, to);
-		const parsedSymbol = parseFullSymbol(symbolInfo.full_name);
+		let token1 = (symbolInfo.full_name.split(':')[1]).split('/')[1];
+		let token0 = (symbolInfo.full_name.split(':')[1]).split('/')[0];
+		const parsedSymbol = parseFullSymbol(token1=='USD'?'uniswapv2:WETH/USDT':symbolInfo.full_name);
+		let price;
+		if(token1 == 'USD'){
+			const getPrice = {
+				e: 'uniswapv2',
+				fsym: token0,
+				tsyms: 'WETH',
+			};
+			price = await makeApiRequest('data/price?'+Object.keys(getPrice)
+			.map(name => `${name}=${encodeURIComponent(getPrice[name])}`)
+			.join('&'))
+			console.log(price)
+		}
+		
 		const urlParameters = {
 			e: parsedSymbol.exchange,
 			fsym: parsedSymbol.fromSymbol,
@@ -143,10 +162,10 @@ export default {
 				if (bar.time >= from && bar.time < to) {
 					bars = [...bars, {
 						time: bar.time * 1000,
-						low: bar.low,
-						high: bar.high,
-						open: bar.open,
-						close: bar.close,
+						low: token1=='USD'?bar.low*price.WETH:bar.low,
+						high: token1=='USD'?bar.high*price.WETH:bar.high,
+						open: token1=='USD'?bar.open*price.WETH:bar.open,
+						close: token1=='USD'?bar.close*price.WETH:bar.close,
 					}];
 				}
 			});

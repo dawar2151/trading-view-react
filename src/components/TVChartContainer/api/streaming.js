@@ -3,8 +3,7 @@ import * as socketIo from 'socket.io-client';
 
 const socket = socketIo('wss://streamer.cryptocompare.com');
 const channelToSubscription = new Map();
-socket.connect();
-console.log('eeeee');
+//socket.connect();
 socket.on('connect', () => {
 	console.log('[socket] Connected');
 });
